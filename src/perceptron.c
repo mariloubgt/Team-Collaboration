@@ -40,3 +40,30 @@ void train_perceptron(Perceptron *perceptron,
             perceptron->bias += learning_rate * error;
         }
     }}
+
+int load_dataset(const char *filename, double inputs[][NUM_INPUTS], int *targets, size_t num_samples) {
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        printf("Error: Unable to open file %s\n", filename);
+        return 0;
+    }
+
+    char line[256];
+    size_t sample_count = 0;
+
+    while (fgets(line, sizeof(line), file) && sample_count < num_samples) {
+        double feature1, feature2, feature3;
+        int target;
+
+        // Parse each line
+        if (sscanf(line, "%lf,%lf,%d", &feature1, &feature2, &target) == 3) {
+            inputs[sample_count][0] = feature1;
+            inputs[sample_count][1] = feature2;
+            targets[sample_count] = target;
+            ++sample_count;
+        }
+    }
+
+    fclose(file);
+    return 1;
+}
