@@ -67,3 +67,18 @@ int load_dataset(const char *filename, double inputs[][NUM_INPUTS], int *targets
     fclose(file);
     return 1;
 }
+
+    printf("Testing the Perceptron on the dataset:\n");
+    int correct_predictions = 0;
+    for (int i = 0; i < NUM_SAMPLES; ++i) {
+        int prediction = predict(&perceptron, inputs[i]);
+        printf("Sample %d: Prediction = %d, Target = %d\n", i + 1, prediction, targets[i]);
+        if (prediction == targets[i]) {
+            ++correct_predictions;
+        }
+    }
+
+    printf("Accuracy: %.2f%%\n", (correct_predictions / (double)NUM_SAMPLES) * 100);
+
+    return 0;
+}
